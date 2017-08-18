@@ -1,0 +1,6 @@
+general_type_code equip_type name description
+100001 weapon "dagger" "단검"
+100002 weapon "short sword" "소검"
+100003 weapon "long sword" "장검"
+100004 weapon "broad sword" "월도"
+100005 weapon "two handed sword" "양손검"
