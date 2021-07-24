@@ -1,6 +1,6 @@
-general_type_code equip_type name description
-100001 weapon "dagger" "´Ü°Ë"
-100002 weapon "short sword" "¼Ò°Ë"
-100003 weapon "long sword" "Àå°Ë"
-100004 weapon "broad sword" "¿ùµµ"
-100005 weapon "two handed sword" "¾ç¼Õ°Ë"
+ï»¿general_type_code equip_type name description
+100001 weapon "dagger" "ë‹¨ê²€"
+100002 weapon "short sword" "ì†Œê²€"
+100003 weapon "long sword" "ì¥ê²€"
+100004 weapon "broad sword" "ì›”ë„"
+100005 weapon "two handed sword" "ì–‘ì†ê²€"

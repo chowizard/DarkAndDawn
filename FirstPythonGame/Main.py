@@ -1,3 +1,5 @@
+#-*- coding: utf-8 -*-
+
 '''
 Created on 2017. 8. 8.
 
@@ -10,7 +12,7 @@ if __name__ == '__main__':
     pass
 
 class Main:
-    ''' 주 클래스 '''
+    ''' 주 클래스 (진입점) '''
 
     isTerminate = False
     game = Game.Game() 
@@ -27,7 +29,7 @@ class Main:
     #-------------------------------------------------------------------------------
     def Initialize(self):
         '''
-        초기화 
+        초기화
         '''
         
         print('Main 초기화')

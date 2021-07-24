@@ -5,7 +5,7 @@ Created on 2021. 7. 11.
 '''
 
 
-from Game.Scene.SceneBase import SceneBase
+from . SceneBase import SceneBase, eSceneType
 
 
 
@@ -19,4 +19,6 @@ class SceneGamePlay(SceneBase):
         생성자
         '''
         SceneBase.__init__(self, params)
+        SceneBase.sceneType = eSceneType.GamePlay
+        print("SceneGamePlay created")
         
