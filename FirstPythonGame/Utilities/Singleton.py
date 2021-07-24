@@ -1,3 +1,5 @@
+#-*- coding: utf-8 -*-
+
 '''
 Created on 2021. 7. 18.
 
@@ -19,7 +21,7 @@ class Singleton(object):
         '''
         생성자
         '''
-        #super.__init__()
+        #super().__init__()
         
     @classmethod
     def Singleton(cls):

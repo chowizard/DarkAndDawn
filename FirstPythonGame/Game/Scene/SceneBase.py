@@ -6,9 +6,12 @@ Created on 2017. 8. 17.
 @author: JoSoowoon
 '''
 
-
 from enum import Enum, unique
 
+
+#-------------------------------------------------------------------------------
+# eSceneType
+#-------------------------------------------------------------------------------
 
 @unique
 class eSceneType(Enum):
@@ -39,26 +42,62 @@ class eSceneType(Enum):
         return result
 
 
+
+#-------------------------------------------------------------------------------
+# SceneBase
+#-------------------------------------------------------------------------------
+
 class SceneBase(object):
     '''
     모든 장면들이 상속받아야 하는 클래스
     '''
     
+    
+    ## Public Variables
+    
     # 장면 타입
     sceneType = eSceneType.Invalid
     
 
-    def __init__(self, params):
+    ## Public Methods
+    
+    def Initialize(self):
+        '''
+        초기화
+        ''' 
+        
+        return True
+    
+    
+    def Process(self):
+        '''
+        프로세스
+        '''
+        
+        pass
+    
+        
+    def Release(self):
+        '''
+        해제
+        '''
+        
+        pass
+        
+
+    ## Private Methods
+
+    def __init__(self):
         '''
         생성자
         '''
+    
+        print('SceneBase constructed')
         
-    @staticmethod
-    def StaticMethod():
-        pass
     
-    @classmethod
-    def ClassMethod(self):
-        pass
-    
-    
+    def __del__(self):
+        '''
+        소멸자
+        '''
+        
+        print('SceneBase destroyed')

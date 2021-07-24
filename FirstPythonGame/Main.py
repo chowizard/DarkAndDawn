@@ -6,69 +6,93 @@ Created on 2017. 8. 8.
 @author: JoSoowoon
 '''
 
-from Game import Game
+from Game.Game import Game
+
 
 if __name__ == '__main__':
     pass
 
-class Main:
-    ''' 주 클래스 (진입점) '''
 
+#-------------------------------------------------------------------------------
+# Main
+#-------------------------------------------------------------------------------
+
+class Main:
+    '''
+     주 클래스 (진입점)
+    '''
+
+    # Public Variables
+
+    # 애플리케이션 종료 여부
     isTerminate = False
-    game = Game.Game() 
+
+
+    ## Public Methods
     
-    #-------------------------------------------------------------------------------
-    def __init__(self):
+    @staticmethod
+    def Run():
         '''
-        생성자
+        구동
         '''
         
-        print('Main 생성자')
+        print('Main.Run() : Begin')
+        
+        Main.__Initialize__()
+        
+        # while Main.isTerminate == False:
+        #     Main.__Process__()
+        Main.__Process__()
+        
+        Main.__Release__()
+        
+        print('Main.Run() : End')
 
 
-    #-------------------------------------------------------------------------------
-    def Initialize(self):
+    ## Private Methods
+        
+    @staticmethod
+    def __Initialize__():
         '''
         초기화
-        '''
-        
+        '''        
         print('Main 초기화')
-        
-        #=======================================================================
-        # testFile = open('./Data/test.txt', 'r')
-        # readData = testFile.read()
-        # print(readData)
-        # testFile.close()
-        #=======================================================================
 
-        #=======================================================================
-        # with open('test.txt', 'r') as testFile:
-        #     readData = testFile.read()
-        #     print(readData)
-        # testFile.close()
-        #=======================================================================
-        
-        self.game.Initialize()
+        Game.Singleton().Initialize()
     
-    #-------------------------------------------------------------------------------
-    def Process(self):
+    
+    @staticmethod
+    def __Process__():
         '''
         진행 
         '''
         
         print('Main 진행')
         
-        self.game.Process()
+        Game.Singleton().Process()
     
     
-    #-------------------------------------------------------------------------------
-    def Release(self):
+    @staticmethod
+    def __Release__():
         '''
         해제
         '''
         
+        Game.Singleton().Release()
+        
         print('Main 해제')
+
     
+print('''
+========================================
+ Game Started
+========================================
+''')
     
-main = Main()
-main.Initialize()
+Main.Run()
+
+print('''
+========================================
+ Game Terminated
+========================================
+''')
