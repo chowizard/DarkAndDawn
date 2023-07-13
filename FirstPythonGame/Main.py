@@ -22,10 +22,19 @@ class Main:
      주 클래스 (진입점)
     '''
 
+    ########################################
     # Public Variables
-
+    ########################################
+    
+    
+    
+    ########################################
+    # Private Variables
+    ########################################
+    
     # 애플리케이션 종료 여부
-    isTerminate = False
+    __isTerminate__ = False
+    
 
 
     ## Public Methods
@@ -40,14 +49,18 @@ class Main:
         
         Main.__Initialize__()
         
-        # while Main.isTerminate == False:
-        #     Main.__Process__()
-        Main.__Process__()
+        while True:
+            Main.__CheckIsTerminated__()
+            if Main.__isTerminate__ == True:
+                break
+            
+            Main.__Process__()
+        #Main.__Process__()
         
         Main.__Release__()
         
         print('Main.Run() : End')
-
+    
 
     ## Private Methods
         
@@ -81,7 +94,26 @@ class Main:
         Game.Singleton().Release()
         
         print('Main 해제')
+        
+        
+    @staticmethod
+    def __CheckIsTerminated__():
+        '''
+        종료 여부를 확인한다.
+        '''
+        
+        if Main.__isTerminate__ == True:
+            return True
+        else:
+            bGameIsTerminated = Game.Singleton().IsTerminated() 
+            if bGameIsTerminated == False:
+                return False
+            
+            Main.__isTerminate__ = True
+        
 
+    
+# 프로그램 시작
     
 print('''
 ========================================
