@@ -12,30 +12,42 @@ class Singleton(object):
     : 싱글톤을 구현하기 위한 클래스들은 이 클래스를 상속하여야 한다. 
     '''
     
+    ########################################
+    ## Public Variables
+    ########################################
     
     # 싱글톤 인스턴스
     __singleton = None
 
+
+    ########################################
+    ## Public Methods
+    ########################################
         
+    @classmethod
+    def Singleton(targetClass):
+        '''
+        싱글톤 인스턴스 획득
+        '''
+        targetClass.__singleton = targetClass()
+        targetClass.Singleton = targetClass.__Singleton
+        return targetClass.__singleton
+    
+    @classmethod
+    def __Singleton(targetClass):
+        '''
+        싱글톤 인스턴스 획득
+        '''
+        return targetClass.__singleton
+    
+    
+    ########################################
+    ## Private Methods
+    ########################################
+    
     def __init__(self):
         '''
         생성자
         '''
         #super().__init__()
-        
-    @classmethod
-    def Singleton(cls):
-        '''
-        싱글톤 인스턴스 획득
-        '''
-        cls.__singleton = cls()
-        cls.Singleton = cls.__Singleton
-        return cls.__singleton
-    
-    @classmethod
-    def __Singleton(cls):
-        '''
-        싱글톤 인스턴스 획득
-        '''
-        return cls.__singleton
         

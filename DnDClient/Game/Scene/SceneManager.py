@@ -22,51 +22,50 @@ class SceneManager:
     장면 관리자
     '''
     
+    ########################################
     # Public Variables
+    ########################################
     
     # 장면 목록
     scenes = { }
     
     
-
+    ########################################
     ## Public Methods
+    ########################################
         
     def Initialize(self):
         '''
         초기화
         '''
-        
         self.__InitializeScenes__()
         return True
     
     
+    ########################################
     ## Private Methods
+    ########################################
     
     def __init__(self):
         '''
         생성자
         '''
+        print('{ClassName} constructed'.format(ClassName = SceneManager.__name__))
         
-        print('SceneManager contructed')
-        
-        
-    def __del(self):
+    def __del__(self):
         '''
         소멸자
         '''
-        
         for scene in self.scenes:
             del scene
         self.scenes.clear()
-        
-        print('SceneManager destroyed')
+        print('{ClassName} destroyed'.format(ClassName = SceneManager.__name__))
 
         
     def __InitializeScenes__(self):
         '''
         장면 객체들을 초기화한다.
         '''
-        
         self.scenes.setdefault(eSceneType.Intro, SceneIntro())
         self.scenes.setdefault(eSceneType.Lobby, SceneLobby())
         self.scenes.setdefault(eSceneType.Loading, SceneLoading())

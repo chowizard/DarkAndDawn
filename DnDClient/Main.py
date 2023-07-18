@@ -36,16 +36,16 @@ class Main:
     __isTerminate__ = False
     
 
-
+    ########################################
     ## Public Methods
+    ########################################
     
     @staticmethod
     def Run():
         '''
         구동
         '''
-        
-        print('Main.Run() : Begin')
+        print('{ClassName}.{FunctionName}() : Begin'.format(ClassName = Main.__name__, FunctionName = Main.Run.__name__))
         
         Main.__Initialize__()
         
@@ -59,7 +59,7 @@ class Main:
         
         Main.__Release__()
         
-        print('Main.Run() : End')
+        print('{ClassName}.{FunctionName}() : End'.format(ClassName = Main.__name__, FunctionName = Main.Run.__name__))
     
 
     ## Private Methods
@@ -69,19 +69,15 @@ class Main:
         '''
         초기화
         '''        
-        print('Main 초기화')
-
+        print('{ClassName}.{FunctionName}()'.format(ClassName = Main.__name__, FunctionName = Main.__Initialize__.__name__))
         Game.Singleton().Initialize()
-    
     
     @staticmethod
     def __Process__():
         '''
         진행 
         '''
-        
-        print('Main 진행')
-        
+        print('{ClassName}.{FunctionName}()'.format(ClassName = Main.__name__, FunctionName = Main.__Process__.__name__))
         Game.Singleton().Process()
     
     
@@ -90,30 +86,27 @@ class Main:
         '''
         해제
         '''
-        
         Game.Singleton().Release()
-        
-        print('Main 해제')
-        
+        print('{ClassName}.{FunctionName}()'.format(ClassName = Main.__name__, FunctionName = Main.__Release__.__name__))
         
     @staticmethod
     def __CheckIsTerminated__():
         '''
         종료 여부를 확인한다.
         '''
-        
         if Main.__isTerminate__ == True:
             return True
         else:
-            bGameIsTerminated = Game.Singleton().IsTerminated() 
-            if bGameIsTerminated == False:
+            isTerminated = Game.Singleton().IsTerminated() 
+            if isTerminated == False:
                 return False
             
             Main.__isTerminate__ = True
         
 
-    
+########################################
 # 프로그램 시작
+########################################
     
 print('''
 ========================================

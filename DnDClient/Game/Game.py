@@ -14,6 +14,7 @@ import win32console
 import win32con
 
 
+
 # 정의하지 않은 모드의 콘솔(무효한 모드 값이다.)
 CONSOLE_MODE_NONE = 0
 
@@ -51,11 +52,14 @@ class Game(Singleton):
     # 현재 콘솔 모드
     consoleMode = CONSOLE_MODE_NONE
     
-    # 시스템 콘솔
-    consoleSystem = None
+    # 입력 핸들
+    consoleInput = None
     
-    # 게임 콘솔
-    consoleGame = None
+    # 시스템 콘솔 핸들
+    consoleOutputSystem = None
+    
+    # 게임 콘솔 핸들
+    consoleOutputGame = None
    
    
     
@@ -67,28 +71,33 @@ class Game(Singleton):
     __bTerminated__ = False
     
     
-    
-    ## Public Methods    
+    ########################################
+    ## Public Methods
+    ########################################
     
     def Initialize(self):
         '''
         초기화
         '''
-        
-        print('Game.Initialize()')
+        print('{ClassName}.{FunctionName}()'.format(ClassName = Game.__name__, FunctionName = Game.Initialize.__name__))
 
         self.sceneManager.Initialize()
         
-        if self.consoleSystem == None:
-            self.consoleSystem = win32console.GetStdHandle(win32console.STD_OUTPUT_HANDLE)
+        self.consoleInput = win32console.GetStdHandle(win32console.STD_INPUT_HANDLE)
+        assert(self.consoleInput != None)
         
-        if self.consoleGame == None:
-            self.consoleGame = win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE,
-                                                                      ShareMode = 0,
-                                                                      SecurityAttributes = None, 
-                                                                      Flags = win32console.CONSOLE_TEXTMODE_BUFFER)
+        if self.consoleOutputSystem == None:
+            self.consoleOutputSystem = win32console.GetStdHandle(win32console.STD_OUTPUT_HANDLE)
+            print('system handle = {0}'.format(self.consoleOutputSystem))
         
-        self.SwitchConsoleMode(CONSOLE_MODE_GAME)
+        if self.consoleOutputGame == None:
+            self.consoleOutputGame = win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE,
+                                                                            ShareMode = win32con.FILE_SHARE_READ | win32con.FILE_SHARE_WRITE,
+                                                                            SecurityAttributes = None, 
+                                                                            Flags = win32console.CONSOLE_TEXTMODE_BUFFER)
+            print('game handle = {0}'.format(self.consoleOutputGame))
+        
+        #self.SwitchConsoleMode(CONSOLE_MODE_GAME)
         #self.SwitchConsoleMode(CONSOLE_MODE_SYSTEM)
         
         
@@ -118,28 +127,23 @@ class Game(Singleton):
         #=======================================================================
         
         return True
-
    
     def Process(self):
         '''
         실행
         '''
-        
-        print('Game.Process()')
+        print('{ClassName}.{FunctionName}()'.format(ClassName = Game.__name__, FunctionName = Game.Process.__name__))
         
         self.__ProcessInputCommand__()
-
 
     def Release(self):
         '''
         해제
         '''
-        
-        print('Game.Release()')
+        print('{ClassName}.{FunctionName}()'.format(ClassName = Game.__name__, FunctionName = Game.Release.__name__))
         
         # 왜 여기서는 표준 입력으로 전환하면 안되는 것일까...?
         #self.SwitchConsoleMode(CONSOLE_MODE_SYSTEM)
-        
         
     def SwitchConsoleMode(self, consoleMode):
         '''
@@ -149,20 +153,25 @@ class Game(Singleton):
         if self.consoleMode == consoleMode:
             return
         
-        print('Game.SwitchConsoleMode() : [TargetMode] = {0}'.format(consoleMode))
+        print('{ClassName}.{FunctionName}SwitchConsoleMode() : [TargetMode] = {TargetMode}'
+              .format(ClassName = Game.__name__,
+                      FunctionName = Game.SwitchConsoleMode.__name__,
+                      TargetMode = consoleMode))
         
         self.consoleMode = consoleMode;
         
         if self.consoleMode == CONSOLE_MODE_SYSTEM:
-            if(self.consoleSystem != None):
-                self.consoleSystem.SetConsoleActiveScreenBuffer()
+            assert(self.consoleOutputSystem != None)
+            if(self.consoleOutputSystem != None):
+                self.consoleOutputSystem.SetConsoleActiveScreenBuffer()
         elif self.consoleMode == CONSOLE_MODE_GAME:
-            if(self.consoleGame != None):
-                self.consoleGame.SetConsoleActiveScreenBuffer()
+            assert(self.consoleOutputGame != None)
+            if(self.consoleOutputGame != None):
+                self.consoleOutputGame.SetConsoleActiveScreenBuffer()
         else:
-            print('Game.SwitchSonsoleMode() : Invalid console mode. Switch mode to game.')
+            print('{ClassName}.{FunctionName}() : Invalid console mode. Switch mode to game.'
+                  .format(ClassName = Game.__name__, FunctionName = Game.SwitchConsoleMode.__name__))
             self.SwitchConsoleMode(CONSOLE_MODE_GAME)
-            
     
     def IsTerminated(self):
         '''
@@ -170,35 +179,31 @@ class Game(Singleton):
         '''
         
         return self.__bTerminated__
-    
 
-   
+
+    ########################################
     ## Private Methods
+    ########################################
    
     def __init__(self):
         '''
         생성자
         '''
-        
-        print('Game 생성')
+        print('{ClassName} constructed'.format(ClassName = Game.__name__))
         
         self.sceneManager = SceneManager()
-        
         
     def __del__(self):
         '''
         소멸자
         '''
-        
-        print('Game 소멸')
-        
+        print('{ClassName} destroyed'.format(ClassName = Game.__name__))
         
     def __ProcessInputCommand__(self):
         '''
         입력받은 명령을 처리한다.
         '''
-        
-        print('Game.__ProcessInputCommand__()')
+        print('{ClassName}.{FunctionName}()'.format(ClassName = Game.__name__, FunctionName = Game.__ProcessInputCommand__.__name__))
         
         #key = win32api.GetKeyState()
     
