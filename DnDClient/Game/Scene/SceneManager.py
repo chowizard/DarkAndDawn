@@ -1,10 +1,10 @@
 #-*- coding: utf-8 -*-
 
-'''
+"""
 Created on 2017. 8. 17.
 
 @author: JoSoowoon
-'''
+"""
 
 from Game.Scene.SceneBase import eSceneType
 from Game.Scene.SceneIntro import SceneIntro
@@ -18,54 +18,54 @@ from Game.Scene.SceneGamePlay import SceneGamePlay
 #-------------------------------------------------------------------------------
 
 class SceneManager:
-    '''
+    """
     장면 관리자
-    '''
-    
+    """
+
     ########################################
     # Public Variables
     ########################################
-    
+
     # 장면 목록
     scenes = { }
-    
-    
+
+
     ########################################
     ## Public Methods
     ########################################
-        
+
     def Initialize(self):
-        '''
+        """
         초기화
-        '''
+        """
         self.__InitializeScenes__()
         return True
-    
-    
+
+
     ########################################
     ## Private Methods
     ########################################
-    
-    def __init__(self):
-        '''
-        생성자
-        '''
-        print('{ClassName} constructed'.format(ClassName = SceneManager.__name__))
-        
-    def __del__(self):
-        '''
-        소멸자
-        '''
-        for scene in self.scenes:
-            del scene
-        self.scenes.clear()
-        print('{ClassName} destroyed'.format(ClassName = SceneManager.__name__))
 
-        
+    def __init__(self):
+        """
+        생성자
+        """
+        print(f'{SceneManager.__name__} constructed')
+
+    def __del__(self):
+        """
+        소멸자
+        """
+        #for scene in self.scenes:
+        #    del scene
+        self.scenes.clear()
+        print(f'{SceneManager.__name__} destroyed')
+
+
     def __InitializeScenes__(self):
-        '''
+        """
         장면 객체들을 초기화한다.
-        '''
+        """
         self.scenes.setdefault(eSceneType.Intro, SceneIntro())
         self.scenes.setdefault(eSceneType.Lobby, SceneLobby())
         self.scenes.setdefault(eSceneType.Loading, SceneLoading())

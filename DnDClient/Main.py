@@ -1,10 +1,10 @@
 #-*- coding: utf-8 -*-
 
-'''
+"""
 Created on 2017. 8. 8.
 
 @author: JoSoowoon
-'''
+"""
 
 from Game.Game import Game
 
@@ -18,9 +18,9 @@ if __name__ == '__main__':
 #-------------------------------------------------------------------------------
 
 class Main:
-    '''
+    """
      주 클래스 (진입점)
-    '''
+    """
 
     ########################################
     # Public Variables
@@ -42,10 +42,10 @@ class Main:
     
     @staticmethod
     def Run():
-        '''
+        """
         구동
-        '''
-        print('{ClassName}.{FunctionName}() : Begin'.format(ClassName = Main.__name__, FunctionName = Main.Run.__name__))
+        """
+        print(f'{Main.__name__}.{Main.Run.__name__}() : Begin')
         
         Main.__Initialize__()
         
@@ -59,41 +59,41 @@ class Main:
         
         Main.__Release__()
         
-        print('{ClassName}.{FunctionName}() : End'.format(ClassName = Main.__name__, FunctionName = Main.Run.__name__))
+        print(f'{Main.__name__}.{Main.Run.__name__}() : End')
     
 
     ## Private Methods
         
     @staticmethod
     def __Initialize__():
-        '''
+        """
         초기화
-        '''        
-        print('{ClassName}.{FunctionName}()'.format(ClassName = Main.__name__, FunctionName = Main.__Initialize__.__name__))
+        """
+        print(f'{Main.__name__}.{Main.__Initialize__.__name__}()')
         Game.Singleton().Initialize()
     
     @staticmethod
     def __Process__():
-        '''
+        """
         진행 
-        '''
-        print('{ClassName}.{FunctionName}()'.format(ClassName = Main.__name__, FunctionName = Main.__Process__.__name__))
+        """
+        print(f'{Main.__name__}.{Main.__Process__.__name__}()')
         Game.Singleton().Process()
     
     
     @staticmethod
     def __Release__():
-        '''
+        """
         해제
-        '''
+        """
         Game.Singleton().Release()
-        print('{ClassName}.{FunctionName}()'.format(ClassName = Main.__name__, FunctionName = Main.__Release__.__name__))
+        print(f'{Main.__name__}.{Main.__Release__.__name__}()')
         
     @staticmethod
     def __CheckIsTerminated__():
-        '''
+        """
         종료 여부를 확인한다.
-        '''
+        """
         if Main.__isTerminate__ == True:
             return True
         else:
@@ -108,16 +108,16 @@ class Main:
 # 프로그램 시작
 ########################################
     
-print('''
+print("""
 ========================================
  Game Started
 ========================================
-''')
+""")
     
 Main.Run()
 
-print('''
+print("""
 ========================================
  Game Terminated
 ========================================
-''')
+""")
