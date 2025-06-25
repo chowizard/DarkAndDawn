@@ -1,0 +1,15 @@
+eclipse.preferences.version=1
+encoding//Game/Define/GameDefines.py=utf-8
+encoding//Game/Game.py=utf-8
+encoding//Game/Scene/SceneBase.py=utf-8
+encoding//Game/Scene/SceneGamePlay.py=utf-8
+encoding//Game/Scene/SceneIntro.py=utf-8
+encoding//Game/Scene/SceneLoading.py=utf-8
+encoding//Game/Scene/SceneLobby.py=utf-8
+encoding//Game/Scene/SceneManager.py=utf-8
+encoding//Game/Scene/__init__.py=utf-8
+encoding//Game/__init__.py=utf-8
+encoding//Test/ConsoleTest.py=utf-8
+encoding//Utilities/Singleton.py=utf-8
+encoding//Utilities/__init__.py=utf-8
+encoding/Main.py=utf-8

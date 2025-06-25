@@ -1,2 +1,6 @@
 /FirstPythonGame/.settings
 /eclipse-workspace
+DnDClient/.idea
+DnDClient/Utilities/__pycache__
+DnDClient/Result.txt
+*.code-workspace
