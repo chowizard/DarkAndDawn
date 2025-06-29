@@ -14,17 +14,18 @@ import time
 import sys
 
 print('----------------------------------------\n' +
-      '[ Started ]\n' + 
+      '[ Started ]\n' +
       '----------------------------------------\n\n')
 
 systemConsole = win32console.GetStdHandle(win32console.STD_OUTPUT_HANDLE)
-print('[SystemConsole] = {Handle}'.format(Handle = systemConsole))
+print(f'[SystemConsole] = {systemConsole}')
 
-eventConsole = win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, 
-                                                      ShareMode = 0,
-                                                      SecurityAttributes = None,
-                                                      Flags = win32console.CONSOLE_TEXTMODE_BUFFER)
-print('[EventConsole] = {Handle}'.format(Handle = eventConsole))
+eventConsole = win32console.CreateConsoleScreenBuffer(
+    DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE,
+    ShareMode = 0,
+    SecurityAttributes = None,
+    Flags = win32console.CONSOLE_TEXTMODE_BUFFER)
+print(f'[EventConsole] = {eventConsole}')
 
 sys.stdin.read(1)
 eventConsole.SetStdHandle(win32console.STD_OUTPUT_HANDLE)
@@ -53,5 +54,5 @@ systemConsole.SetConsoleActiveScreenBuffer()
 print('systemConsole activated.')
 
 print('\n\n----------------------------------------\n' +
-      '[ Finished ]\n' + 
+      '[ Finished ]\n' +
       '----------------------------------------\n\n')

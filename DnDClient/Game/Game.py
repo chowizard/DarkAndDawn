@@ -79,18 +79,18 @@ class Game(Singleton):
         """
         초기화
         """
-        print('{ClassName}.{FunctionName}()'.format(ClassName = Game.__name__, FunctionName = Game.Initialize.__name__))
+        print(f'{Game.__name__}.{Game.Initialize.__name__}()')
 
         self.sceneManager.Initialize()
 
         self.consoleInput = win32console.GetStdHandle(win32console.STD_INPUT_HANDLE)
         assert(self.consoleInput is not None)
-        print('input handle = {Handle}'.format(Handle = self.consoleInput))
+        print(f'input handle = {self.consoleInput}')
 
         if self.consoleOutputSystem is None:
             self.consoleOutputSystem = win32console.GetStdHandle(win32console.STD_OUTPUT_HANDLE)
             #self.consoleOutputSystem = win32console.;
-            print('system handle = {Handle}'.format(Handle = self.consoleOutputSystem))
+            print(f'system handle = {self.consoleOutputSystem}')
 
         if self.consoleOutputGame is None:
             self.consoleOutputGame = win32console.CreateConsoleScreenBuffer(
@@ -157,7 +157,7 @@ class Game(Singleton):
         if self.consoleMode == consoleMode:
             return
 
-        print(f'{Game.__name__}.{Game.SwitchConsoleMode.__name__}SwitchConsoleMode() : [TargetMode] = {consoleMode}')
+        print(f'{Game.__name__}.{Game.SwitchConsoleMode.__name__}() : [TargetMode] = {consoleMode}')
 
         self.consoleMode = consoleMode
 
