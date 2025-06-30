@@ -25,45 +25,45 @@ class Main:
     ########################################
     # Public Variables
     ########################################
-    
-    
-    
+
+
+
     ########################################
     # Private Variables
     ########################################
-    
+
     # 애플리케이션 종료 여부
     __isTerminate__ = False
-    
+
 
     ########################################
     ## Public Methods
     ########################################
-    
+
     @staticmethod
     def Run():
         """
         구동
         """
         print(f'{Main.__name__}.{Main.Run.__name__}() : Begin')
-        
+
         Main.__Initialize__()
-        
+
         while True:
             Main.__CheckIsTerminated__()
             if Main.__isTerminate__ == True:
                 break
-            
+
             Main.__Process__()
         #Main.__Process__()
-        
+
         Main.__Release__()
-        
+
         print(f'{Main.__name__}.{Main.Run.__name__}() : End')
-    
+
 
     ## Private Methods
-        
+
     @staticmethod
     def __Initialize__():
         """
@@ -71,16 +71,16 @@ class Main:
         """
         print(f'{Main.__name__}.{Main.__Initialize__.__name__}()')
         Game.Singleton().Initialize()
-    
+
     @staticmethod
     def __Process__():
         """
-        진행 
+        진행
         """
         print(f'{Main.__name__}.{Main.__Process__.__name__}()')
         Game.Singleton().Process()
-    
-    
+
+
     @staticmethod
     def __Release__():
         """
@@ -88,7 +88,7 @@ class Main:
         """
         Game.Singleton().Release()
         print(f'{Main.__name__}.{Main.__Release__.__name__}()')
-        
+
     @staticmethod
     def __CheckIsTerminated__():
         """
@@ -97,23 +97,23 @@ class Main:
         if Main.__isTerminate__ == True:
             return True
         else:
-            isTerminated = Game.Singleton().IsTerminated() 
+            isTerminated = Game.Singleton().IsTerminated()
             if isTerminated == False:
                 return False
-            
+
             Main.__isTerminate__ = True
-        
+
 
 ########################################
 # 프로그램 시작
 ########################################
-    
+
 print("""
 ========================================
  Game Started
 ========================================
 """)
-    
+
 Main.Run()
 
 print("""
