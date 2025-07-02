@@ -9,6 +9,7 @@ Created on 2017. 8. 10.
 from Game.Scene.SceneManager import SceneManager
 from Utilities.Singleton import Singleton
 
+import os
 from win32 import win32api
 from win32 import win32console
 from win32.lib import win32con
@@ -99,15 +100,15 @@ class Game(Singleton):
                 #ShareMode = win32con.FILE_SHARE_READ | win32con.FILE_SHARE_WRITE,
                 SecurityAttributes = None,
                 Flags = win32console.CONSOLE_TEXTMODE_BUFFER)
-            print('game handle = {Handle}'.format(Handle = self.consoleOutputGame))
+            print(f'game handle = {self.consoleOutputGame}')
 
-        self.SwitchConsoleMode(CONSOLE_MODE_GAME)
-        self.SwitchConsoleMode(CONSOLE_MODE_SYSTEM)
+        #self.SwitchConsoleMode(CONSOLE_MODE_GAME)
+        #self.SwitchConsoleMode(CONSOLE_MODE_SYSTEM)
 
 
-        # terminalSize = os.get_terminal_size()
+        terminalSize = os.get_terminal_size()
         # terminalSize = shutil.get_terminal_size()
-        # print('[TerminalSize] = [Columns] = {0}  [Lines] = {1}'.format(terminalSize.columns, terminalSize.lines))
+        print(f'[TerminalSize] = [Columns] = {terminalSize.columns}  [Lines] = {terminalSize.lines}')
         #
         #
         #
@@ -153,7 +154,6 @@ class Game(Singleton):
         """
         콘솔 모드를 전환한다.
         """
-
         if self.consoleMode == consoleMode:
             return
 
@@ -210,7 +210,7 @@ class Game(Singleton):
         print("명령을 입력하세요 : ")
         self.command = input()
 
-        if self.command == 'quit':
+        if self.command == 'quit' or self.command == 'exit':
             self.__bTerminated__ = True
         elif self.command == 'system':
             self.SwitchConsoleMode(CONSOLE_MODE_SYSTEM)
