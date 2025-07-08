@@ -16,7 +16,7 @@ from enum import Enum, unique
 @unique
 class eSceneType(Enum):
     """
-    장면 관련 열거 클래스
+    장면 열거 클래스
     """
 
     # 무효값
@@ -68,7 +68,7 @@ class SceneBase(object):
     ########################################
 
     # 장면 타입
-    sceneType = eSceneType.Invalid
+    sceneType: eSceneType = eSceneType.Invalid
 
 
     ########################################

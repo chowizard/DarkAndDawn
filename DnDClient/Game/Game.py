@@ -9,21 +9,26 @@ Created on 2017. 8. 10.
 from Game.Scene.SceneManager import SceneManager
 from Utilities.Singleton import Singleton
 
+from enum import Enum, unique
+
+from io import StringIO
+
 import os
-from win32 import win32api
-from win32 import win32console
-from win32.lib import win32con
+import sys
 
+class eConsoleMode(Enum):
+    """
+    콘솔 모드 열거 클래스
+    """
 
+    # 정의하지 않은 모드의 콘솔(무효한 모드 값이다.)
+    Unknown = 0
 
-# 정의하지 않은 모드의 콘솔(무효한 모드 값이다.)
-CONSOLE_MODE_NONE = 0
+    # 시스템 모드 콘솔
+    System = 1
 
-# 시스템 모드 콘솔
-CONSOLE_MODE_SYSTEM = 1
-
-# 게임 모드 콘솔
-CONSOLE_MODE_GAME = 2
+    # 게임 모드 콘솔
+    Game = 2
 
 
 
@@ -41,26 +46,23 @@ class Game(Singleton):
     ########################################
 
     # 장면 관리자
-    sceneManager = None
+    sceneManager: SceneManager
 
     # 캐릭터 개체 관리자
 
     # 네트워크 관리자
 
     # 입력한 명령
-    command = ''
+    command: str = ''
 
     # 현재 콘솔 모드
-    consoleMode = CONSOLE_MODE_NONE
+    consoleMode: eConsoleMode = eConsoleMode.Unknown
 
-    # 입력 핸들
-    consoleInput = None
+    # 시스템 출력 버퍼
+    consoleOutputSystem: StringIO = sys.stdout
 
-    # 시스템 콘솔 핸들
-    consoleOutputSystem = None
-
-    # 게임 콘솔 핸들
-    consoleOutputGame = None
+    # 게임 출력 버퍼
+    consoleOutputGame: StringIO = StringIO()
 
 
 
@@ -69,7 +71,7 @@ class Game(Singleton):
     ########################################
 
     # 게임 종료 여부
-    __bTerminated__ = False
+    __bTerminated__: bool = False
 
 
     ########################################
@@ -83,35 +85,8 @@ class Game(Singleton):
         print(f'{Game.__name__}.{Game.Initialize.__name__}()')
 
         self.sceneManager.Initialize()
+        self.SwitchConsoleMode(eConsoleMode.Game)
 
-        self.consoleInput = win32console.GetStdHandle(win32console.STD_INPUT_HANDLE)
-        assert(self.consoleInput is not None)
-        print(f'input handle = {self.consoleInput}')
-
-        if self.consoleOutputSystem is None:
-            self.consoleOutputSystem = win32console.GetStdHandle(win32console.STD_OUTPUT_HANDLE)
-            #self.consoleOutputSystem = win32console.;
-            print(f'system handle = {self.consoleOutputSystem}')
-
-        if self.consoleOutputGame is None:
-            self.consoleOutputGame = win32console.CreateConsoleScreenBuffer(
-                DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE,
-                ShareMode = 0,
-                #ShareMode = win32con.FILE_SHARE_READ | win32con.FILE_SHARE_WRITE,
-                SecurityAttributes = None,
-                Flags = win32console.CONSOLE_TEXTMODE_BUFFER)
-            print(f'game handle = {self.consoleOutputGame}')
-
-        #self.SwitchConsoleMode(CONSOLE_MODE_GAME)
-        #self.SwitchConsoleMode(CONSOLE_MODE_SYSTEM)
-
-
-        terminalSize = os.get_terminal_size()
-        # terminalSize = shutil.get_terminal_size()
-        print(f'[TerminalSize] = [Columns] = {terminalSize.columns}  [Lines] = {terminalSize.lines}')
-        #
-        #
-        #
         # outTexts = ['Hello\n', 'My\n', 'Name\n', 'is\n', 'JoSoowoon\n']
         # for text in outTexts:
         #     sys.stdout.write(text)
@@ -150,7 +125,7 @@ class Game(Singleton):
         # 왜 여기서는 표준 입력으로 전환하면 안되는 것일까...?
         #self.SwitchConsoleMode(CONSOLE_MODE_SYSTEM)
 
-    def SwitchConsoleMode(self, consoleMode):
+    def SwitchConsoleMode(self, consoleMode: eConsoleMode):
         """
         콘솔 모드를 전환한다.
         """
@@ -161,17 +136,21 @@ class Game(Singleton):
 
         self.consoleMode = consoleMode
 
-        if self.consoleMode is CONSOLE_MODE_SYSTEM:
+        if self.consoleMode is eConsoleMode.System:
             assert(self.consoleOutputSystem is not None)
             if(self.consoleOutputSystem is not None):
-                self.consoleOutputSystem.SetConsoleActiveScreenBuffer()
-        elif self.consoleMode is CONSOLE_MODE_GAME:
+                sys.stdout = self.consoleOutputSystem
+                os.system('cls')
+                print("[Systme] Console mode switch to System")
+        elif self.consoleMode is eConsoleMode.Game:
             assert(self.consoleOutputGame is not None)
             if(self.consoleOutputGame is not None):
-                self.consoleOutputGame.SetConsoleActiveScreenBuffer()
+                sys.stdout = self.consoleOutputGame
+                os.system('cls')
+                print("[Systme] Console mode switch to Game")
         else:
             print(f'{Game.__name__}.{Game.SwitchConsoleMode.__name__}() : Invalid console mode. Switch mode to game.')
-            self.SwitchConsoleMode(CONSOLE_MODE_GAME)
+            self.SwitchConsoleMode(eConsoleMode.Game)
 
     def IsTerminated(self):
         """
@@ -213,6 +192,6 @@ class Game(Singleton):
         if self.command == 'quit' or self.command == 'exit':
             self.__bTerminated__ = True
         elif self.command == 'system':
-            self.SwitchConsoleMode(CONSOLE_MODE_SYSTEM)
+            self.SwitchConsoleMode(eConsoleMode.System)
         elif self.command == 'game':
-            self.SwitchConsoleMode(CONSOLE_MODE_GAME)
+            self.SwitchConsoleMode(eConsoleMode.Game)
