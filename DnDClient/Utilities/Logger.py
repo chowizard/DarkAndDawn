@@ -8,11 +8,12 @@ class Logger:
     """
 
     # 로그 버퍼
-    buffer: StringIO = None
+    buffer: StringIO
 
     @staticmethod
     def Log(message: str):
         """
         로그를 버퍼에 쓴다.
         """
-        Logger.buffer.write(message)
+        if Logger.buffer is not None:
+            Logger.buffer.write(message)
