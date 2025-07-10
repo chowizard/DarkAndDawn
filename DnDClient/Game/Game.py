@@ -59,7 +59,7 @@ class Game(Singleton):
     consoleMode: eConsoleMode = eConsoleMode.Unknown
 
     # 시스템 출력 버퍼
-    consoleOutputSystem: StringIO = sys.stdout
+    consoleOutputSystem: StringIO = StringIO()
 
     # 게임 출력 버퍼
     consoleOutputGame: StringIO = StringIO()
@@ -136,21 +136,26 @@ class Game(Singleton):
 
         self.consoleMode = consoleMode
 
+        currentConsole: StringIO = None
         if self.consoleMode is eConsoleMode.System:
             assert(self.consoleOutputSystem is not None)
             if(self.consoleOutputSystem is not None):
-                sys.stdout = self.consoleOutputSystem
-                os.system('cls')
-                print("[Systme] Console mode switch to System")
+                #sys.stdout = self.consoleOutputSystem
+                currentConsole = self.consoleOutputSystem
+                sys.stdout.write("[Console] Console mode switch to System")
         elif self.consoleMode is eConsoleMode.Game:
             assert(self.consoleOutputGame is not None)
             if(self.consoleOutputGame is not None):
-                sys.stdout = self.consoleOutputGame
-                os.system('cls')
-                print("[Systme] Console mode switch to Game")
+                #sys.stdout = self.consoleOutputGame
+                currentConsole = self.consoleOutputSystem
+                sys.stdout.write("[Console] Console mode switch to Game")
         else:
             print(f'{Game.__name__}.{Game.SwitchConsoleMode.__name__}() : Invalid console mode. Switch mode to game.')
             self.SwitchConsoleMode(eConsoleMode.Game)
+
+        #os.system('cls')
+        sys.stdout = sys.__stdout__
+        sys.stdout.write(currentConsole.getvalue())
 
     def IsTerminated(self):
         """
@@ -183,8 +188,6 @@ class Game(Singleton):
         입력받은 명령을 처리한다.
         """
         print(f'{Game.__name__}.{Game.__ProcessInputCommand__.__name__}()')
-
-        #key = win32api.GetKeyState()
 
         print("명령을 입력하세요 : ")
         self.command = input()
