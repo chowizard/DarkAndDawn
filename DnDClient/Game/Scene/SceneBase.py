@@ -7,6 +7,7 @@ Created on 2017. 8. 17.
 """
 
 from enum import Enum, unique
+from Utilities.Logger import Logger
 
 
 #-------------------------------------------------------------------------------
@@ -102,10 +103,10 @@ class SceneBase(object):
         """
         생성자
         """
-        print(f'{SceneBase.__name__} constructed')
+        Logger.Log(f'{SceneBase.__name__} constructed')
 
     def __del__(self):
         """
         소멸자
         """
-        print(f'{SceneBase.__name__} destroyed')
+        Logger.Log(f'{SceneBase.__name__} destroyed')

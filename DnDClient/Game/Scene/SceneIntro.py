@@ -7,6 +7,7 @@ Created on 2021. 7. 11.
 """
 
 from Game.Scene.SceneBase import SceneBase, eSceneType
+from Utilities.Logger import Logger
 
 
 #-------------------------------------------------------------------------------
@@ -49,7 +50,7 @@ class SceneIntro(SceneBase):
         """
         생성자
         """
-        print(f'{SceneIntro.__name__} constructed')
+        Logger.Log(f'{SceneIntro.__name__} constructed')
 
         super().__init__()
         SceneBase.sceneType = eSceneType.Intro
@@ -58,6 +59,6 @@ class SceneIntro(SceneBase):
         """
         소멸자
         """
-        print(f'{SceneIntro.__name__} destroyed')
+        Logger.Log(f'{SceneIntro.__name__} destroyed')
 
         super().__del__()

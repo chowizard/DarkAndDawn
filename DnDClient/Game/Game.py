@@ -8,6 +8,7 @@ Created on 2017. 8. 10.
 
 from Game.Scene.SceneManager import SceneManager
 from Utilities.Singleton import Singleton
+from Utilities.Logger import Logger
 
 #-------------------------------------------------------------------------------
 # Game
@@ -46,7 +47,7 @@ class Game(Singleton):
         """
         초기화
         """
-        print(f'{Game.__name__}.{Game.Initialize.__name__}()')
+        Logger.Log(f'{Game.__name__}.{Game.Initialize.__name__}()')
 
         self.sceneManager.Initialize()
 
@@ -56,13 +57,13 @@ class Game(Singleton):
         """
         실행
         """
-        print(f'{Game.__name__}.{Game.Process.__name__}()')
+        Logger.Log(f'{Game.__name__}.{Game.Process.__name__}()')
 
     def Release(self):
         """
         해제
         """
-        print(f'{Game.__name__}.{Game.Release.__name__}()')
+        Logger.Log(f'{Game.__name__}.{Game.Release.__name__}()')
 
         # 왜 여기서는 표준 입력으로 전환하면 안되는 것일까...?
         #self.SwitchConsoleMode(CONSOLE_MODE_SYSTEM)
@@ -82,7 +83,7 @@ class Game(Singleton):
         """
         생성자
         """
-        print(f'{Game.__name__} constructed')
+        Logger.Log(f'{Game.__name__} constructed')
 
         super().__init__()
         self.sceneManager = SceneManager()
@@ -91,4 +92,4 @@ class Game(Singleton):
         """
         소멸자
         """
-        print(f'{Game.__name__} destroyed')
+        Logger.Log(f'{Game.__name__} destroyed')

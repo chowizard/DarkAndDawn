@@ -7,9 +7,11 @@ Created on 2017. 8. 8.
 """
 
 from Game.Game import Game
+from Utilities.Logger import Logger
 
 from enum import Enum, unique
 from io import StringIO
+import os
 import sys
 
 if __name__ == '__main__':
@@ -75,7 +77,7 @@ class Main:
         """
         구동
         """
-        print(f'{Main.__name__}.{Main.Run.__name__}() : Begin')
+        Logger.Log(f'{Main.__name__}.{Main.Run.__name__}() : Begin')
 
         Main.__Initialize__()
 
@@ -87,7 +89,7 @@ class Main:
 
         Main.__Release__()
 
-        print(f'{Main.__name__}.{Main.Run.__name__}() : End')
+        Logger.Log(f'{Main.__name__}.{Main.Run.__name__}() : End')
 
     @staticmethod
     def SwitchConsoleMode(consoleMode: eConsoleMode):
@@ -97,31 +99,27 @@ class Main:
         if Main.consoleMode == consoleMode:
             return
 
-        print(f'{Main.__name__}.{Main.SwitchConsoleMode.__name__}() : [TargetMode] = {consoleMode}')
+        Logger.Log(f'{Main.__name__}.{Main.SwitchConsoleMode.__name__}() : [TargetMode] = {consoleMode}')
 
         Main.consoleMode = consoleMode
+        consoleBuffer = Main.GetConsoleBuffer()
+        if consoleBuffer is not None:
+            Logger.LogToBuffer(consoleBuffer, f'[Console] Console mode switch to {Main.consoleMode}')
 
-        currentConsole: StringIO = None
-        if Main.consoleMode is eConsoleMode.System:
-            assert(Main.consoleOutputSystem is not None)
-            if(Main.consoleOutputSystem is not None):
-                #sys.stdout = Main.consoleOutputSystem
-                currentConsole = Main.consoleOutputSystem
-                sys.stdout.write("[Console] Console mode switch to System")
-        elif Main.consoleMode is eConsoleMode.Game:
-            assert(Main.consoleOutputGame is not None)
-            if(Main.consoleOutputGame is not None):
-                #sys.stdout = Main.consoleOutputGame
-                currentConsole = Main.consoleOutputSystem
-                sys.stdout.write("[Console] Console mode switch to Game")
+    @staticmethod
+    def GetConsoleBuffer() -> StringIO:
+        """
+        현재 콘솔 버퍼를 가져온다.
+        """
+        consoleBuffer: StringIO
+        if (Main.consoleMode is eConsoleMode.System):
+            consoleBuffer = Main.consoleOutputSystem
+        elif (Main.consoleMode is eConsoleMode.Game):
+            consoleBuffer = Main.consoleOutputGame
         else:
-            print(f'{Main.__name__}.{Main.SwitchConsoleMode.__name__}() : Invalid console mode. Switch mode to game.')
-            Main.SwitchConsoleMode(eConsoleMode.Game)
+            consoleBuffer = None
 
-        #os.system('cls')
-        sys.stdout = sys.__stdout__
-        sys.stdout.write(currentConsole.getvalue())
-
+        return consoleBuffer
 
     ## Private Methods
 
@@ -130,7 +128,7 @@ class Main:
         """
         초기화
         """
-        print(f'{Main.__name__}.{Main.__Initialize__.__name__}()')
+        Logger.Log(f'{Main.__name__}.{Main.__Initialize__.__name__}()')
 
         Main.SwitchConsoleMode(eConsoleMode.Game)
 
@@ -160,7 +158,7 @@ class Main:
         """
         진행
         """
-        print(f'{Main.__name__}.{Main.__Process__.__name__}()')
+        Logger.Log(f'{Main.__name__}.{Main.__Process__.__name__}()')
         Main.__ProcessInputCommand__()
         Game.Singleton().Process()
 
@@ -170,7 +168,7 @@ class Main:
         해제
         """
         Game.Singleton().Release()
-        print(f'{Main.__name__}.{Main.__Release__.__name__}()')
+        Logger.Log(f'{Main.__name__}.{Main.__Release__.__name__}()')
 
     @staticmethod
     def __CheckIsTerminated__():
@@ -189,17 +187,34 @@ class Main:
         """
         입력받은 명령을 처리한다.
         """
-        print(f'{Main.__name__}.{Main.__ProcessInputCommand__.__name__}()')
+        Logger.Log(f'{Main.__name__}.{Main.__ProcessInputCommand__.__name__}()')
 
-        print("명령을 입력하세요 : ")
-        Main.command = input()
+        try:
+            print("명령을 입력하세요 : ")
+            Main.command = input()
 
-        if Main.command in ('quit', 'exit'):
+            if Main.command in ('quit', 'exit'):
+                Main.__isTerminated__ = True
+            elif Main.command in 'system':
+                Main.SwitchConsoleMode(eConsoleMode.System)
+            elif Main.command in 'game':
+                Main.SwitchConsoleMode(eConsoleMode.Game)
+                Main.consoleOutputGame.truncate(0)
+                Main.consoleOutputGame.seek(os.SEEK_SET)
+
+            os.system('cls')
+            sys.stdout = sys.__stdout__
+            consoleBuffer = Main.GetConsoleBuffer()
+            if consoleBuffer is not None:
+                sys.stdout.write(consoleBuffer.getvalue())
+
+        except KeyboardInterrupt:
+            Logger.Log('[Program] Program terminated by user!')
             Main.__isTerminated__ = True
-        elif Main.command in ('system'):
-            Main.SwitchConsoleMode(eConsoleMode.System)
-        elif Main.command in ('game'):
-            Main.SwitchConsoleMode(eConsoleMode.Game)
+
+        except Exception as exception:
+            Logger.Log(f'[Exception] Exception occurd! <Content> = {str(exception)}')
+            Main.__isTerminated__ = True
 
 
 ########################################
@@ -212,7 +227,9 @@ print("""
 ========================================
 """)
 
+Logger.Initialize(Main.consoleOutputSystem)
 Main.Run()
+Logger.Release()
 
 print("""
 ========================================

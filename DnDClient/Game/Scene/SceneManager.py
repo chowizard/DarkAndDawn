@@ -11,6 +11,7 @@ from Game.Scene.SceneIntro import SceneIntro
 from Game.Scene.SceneLobby import SceneLobby
 from Game.Scene.SceneLoading import SceneLoading
 from Game.Scene.SceneGamePlay import SceneGamePlay
+from Utilities.Logger import Logger
 
 
 #-------------------------------------------------------------------------------
@@ -50,7 +51,7 @@ class SceneManager:
         """
         생성자
         """
-        print(f'{SceneManager.__name__} constructed')
+        Logger.Log(f'{SceneManager.__name__} constructed')
 
     def __del__(self):
         """
@@ -59,7 +60,7 @@ class SceneManager:
         #for scene in self.scenes:
         #    del scene
         self.scenes.clear()
-        print(f'{SceneManager.__name__} destroyed')
+        Logger.Log(f'{SceneManager.__name__} destroyed')
 
 
     def __InitializeScenes__(self):
