@@ -17,7 +17,7 @@ class Singleton(object):
     ########################################
 
     # 싱글톤 인스턴스
-    __singleton = None
+    __singleton: object = None
 
 
     ########################################
@@ -49,4 +49,4 @@ class Singleton(object):
         """
         생성자
         """
-        #super().__init__()
+        super().__init__()

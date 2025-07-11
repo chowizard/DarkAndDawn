@@ -9,13 +9,6 @@ Created on 2017. 8. 10.
 from Game.Scene.SceneManager import SceneManager
 from Utilities.Singleton import Singleton
 
-import os
-import sys
-
-
-
-
-
 #-------------------------------------------------------------------------------
 # Game
 #-------------------------------------------------------------------------------
@@ -35,9 +28,6 @@ class Game(Singleton):
     # 캐릭터 개체 관리자
 
     # 네트워크 관리자
-
-
-
 
 
     ########################################
@@ -93,6 +83,8 @@ class Game(Singleton):
         생성자
         """
         print(f'{Game.__name__} constructed')
+
+        super().__init__()
         self.sceneManager = SceneManager()
 
     def __del__(self):

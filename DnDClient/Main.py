@@ -13,7 +13,8 @@ from io import StringIO
 import sys
 
 if __name__ == '__main__':
-    pass
+     # 내용 없음
+     pass
 
 
 class eConsoleMode(Enum):
