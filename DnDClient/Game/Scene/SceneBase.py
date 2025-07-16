@@ -94,6 +94,18 @@ class SceneBase(object):
         """
         pass
 
+    def Enter(self):
+        """
+        장면 진입
+        """
+        Logger.Log(f'Enter {SceneBase.__name__}')
+
+    def Exit(self):
+        """
+        장면 퇴장
+        """
+        Logger.Log(f'Exit {SceneBase.__name__}')
+
 
     ########################################
     ## Private Methods

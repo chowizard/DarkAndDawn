@@ -6,7 +6,7 @@ Created on 2017. 8. 17.
 @author: JoSoowoon
 """
 
-from Game.Scene.SceneBase import eSceneType
+from Game.Scene.SceneBase import eSceneType, SceneBase
 from Game.Scene.SceneIntro import SceneIntro
 from Game.Scene.SceneLobby import SceneLobby
 from Game.Scene.SceneLoading import SceneLoading
@@ -28,19 +28,39 @@ class SceneManager:
     ########################################
 
     # 장면 목록
-    scenes = { }
+    scenes: dict[eSceneType, SceneBase] = \
+    {
+        eSceneType.Intro: SceneIntro(),
+        eSceneType.Lobby: SceneLobby(),
+        eSceneType.Loading: SceneLoading(),
+        eSceneType.GamePlay: SceneGamePlay()
+    }
+
+    # 현재 장면
+    currentScene: SceneBase = None
 
 
     ########################################
     ## Public Methods
     ########################################
 
-    def Initialize(self):
+    def Initialize(self) -> bool:
         """
         초기화
         """
         self.__InitializeScenes__()
         return True
+
+    def ChangeScene(self, sceneType: eSceneType):
+        """
+        장면 교체
+        """
+        if sceneType in self.scenes:
+            self.currentScene = self.scenes[sceneType]
+            self.currentScene.Initialize()
+            return True
+        else:
+            return False
 
 
     ########################################

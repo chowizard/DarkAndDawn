@@ -41,6 +41,18 @@ class SceneGamePlay(SceneBase):
         """
         pass
 
+    def Enter(self):
+        """
+        장면 진입
+        """
+        Logger.Log(f'Enter {SceneGamePlay.__name__}')
+
+    def Exit(self):
+        """
+        장면 퇴장
+        """
+        Logger.Log(f'Exit {SceneGamePlay.__name__}')
+
 
     ########################################
     ## Private Methods
