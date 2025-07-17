@@ -77,7 +77,5 @@ class SceneManager:
         """
         소멸자
         """
-        for scene in self.scenes:
-            del scene
         self.scenes.clear()
         Logger.Log(f'{SceneManager.__name__} destroyed')

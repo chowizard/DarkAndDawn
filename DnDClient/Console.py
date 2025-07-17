@@ -1,9 +1,12 @@
 #-*- coding: utf-8 -*-
 
-from enum import Enum, unique
+from enum import Enum
 from io import StringIO
 import os
 import sys
+
+from Utilities.Logger import Logger
+from Game.Game import Game
 
 class eConsoleMode(Enum):
     """
@@ -201,7 +204,3 @@ class Console:
         except Exception as exception:
             Logger.Log(f'[Exception] Exception occurred! <Content> = {str(exception)}')
             Console.__isTerminated__ = True
-
-
-from Utilities.Logger import Logger
-from Game.Game import Game
