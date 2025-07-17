@@ -24,7 +24,7 @@ class Game(Singleton):
     ########################################
 
     # 장면 관리자
-    sceneManager: SceneManager
+    sceneManager: SceneManager = None
 
     # 캐릭터 개체 관리자
 
@@ -84,12 +84,12 @@ class Game(Singleton):
         생성자
         """
         Logger.Log(f'{Game.__name__} constructed')
-
-        super().__init__()
         self.sceneManager = SceneManager()
+        super().__init__()
 
     def __del__(self):
         """
         소멸자
         """
+        self.sceneManager = None
         Logger.Log(f'{Game.__name__} destroyed')

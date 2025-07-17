@@ -1,16 +1,23 @@
 #-*- coding: utf-8 -*-
 
 from io import StringIO
+from typing import Optional
 
 class Logger:
     """
     로그 클래스
     """
 
+    ########################################
+    ## Public Variables
+    ########################################
     # 로그 버퍼
     buffer: StringIO
 
 
+    ########################################
+    ## Public Methods
+    ########################################
     @staticmethod
     def Initialize(buffer: StringIO):
         """
@@ -32,7 +39,8 @@ class Logger:
         """
         로그를 버퍼에 쓴다.
         """
-        Logger.LogToBuffer(Logger.buffer, message)
+        if Logger.buffer is not None:
+            Logger.LogToBuffer(Logger.buffer, message)
 
     @staticmethod
     def LogToBuffer(buffer: StringIO, message: str):
@@ -45,3 +53,14 @@ class Logger:
         except:
             # 로그 쓰기 실패 시 무시
             pass
+
+
+    ########################################
+    ## Private Methods
+    ########################################
+
+    def __init__(self):
+        """
+        생성자
+        """
+        super().__init__()

@@ -6,13 +6,13 @@ Created on 2017. 8. 17.
 @author: JoSoowoon
 """
 
+from Utilities.Logger import Logger
+
 from Game.Scene.SceneBase import eSceneType, SceneBase
 from Game.Scene.SceneIntro import SceneIntro
 from Game.Scene.SceneLobby import SceneLobby
 from Game.Scene.SceneLoading import SceneLoading
 from Game.Scene.SceneGamePlay import SceneGamePlay
-from Utilities.Logger import Logger
-
 
 #-------------------------------------------------------------------------------
 # SceneManager
@@ -28,16 +28,10 @@ class SceneManager:
     ########################################
 
     # 장면 목록
-    scenes: dict[eSceneType, SceneBase] = \
-    {
-        eSceneType.Intro: SceneIntro(),
-        eSceneType.Lobby: SceneLobby(),
-        eSceneType.Loading: SceneLoading(),
-        eSceneType.GamePlay: SceneGamePlay()
-    }
+    scenes: dict[eSceneType, SceneBase]
 
     # 현재 장면
-    currentScene: SceneBase = None
+    currentScene: SceneBase
 
 
     ########################################
@@ -48,7 +42,6 @@ class SceneManager:
         """
         초기화
         """
-        self.__InitializeScenes__()
         return True
 
     def ChangeScene(self, sceneType: eSceneType):
@@ -71,23 +64,20 @@ class SceneManager:
         """
         생성자
         """
+        self.scenes = \
+            {
+                eSceneType.Intro: SceneIntro(),
+                eSceneType.Lobby: SceneLobby(),
+                eSceneType.Loading: SceneLoading(),
+                eSceneType.GamePlay: SceneGamePlay()
+            }
         Logger.Log(f'{SceneManager.__name__} constructed')
 
     def __del__(self):
         """
         소멸자
         """
-        #for scene in self.scenes:
-        #    del scene
+        for scene in self.scenes:
+            del scene
         self.scenes.clear()
         Logger.Log(f'{SceneManager.__name__} destroyed')
-
-
-    def __InitializeScenes__(self):
-        """
-        장면 객체들을 초기화한다.
-        """
-        self.scenes.setdefault(eSceneType.Intro, SceneIntro())
-        self.scenes.setdefault(eSceneType.Lobby, SceneLobby())
-        self.scenes.setdefault(eSceneType.Loading, SceneLoading())
-        self.scenes.setdefault(eSceneType.GamePlay, SceneGamePlay())

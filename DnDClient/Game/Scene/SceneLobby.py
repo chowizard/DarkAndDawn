@@ -9,7 +9,6 @@ Created on 2021. 7. 11.
 from Game.Scene.SceneBase import SceneBase, eSceneType
 from Utilities.Logger import Logger
 
-
 #-------------------------------------------------------------------------------
 # SceneLobby
 #-------------------------------------------------------------------------------
