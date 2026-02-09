@@ -1,1 +1,3 @@
-pywin32
+textual
+#curses
+#pywin32

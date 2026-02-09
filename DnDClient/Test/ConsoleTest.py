@@ -6,53 +6,31 @@ Created on 2024. 1. 10.
 @author: chowizard
 '''
 
-from win32 import win32api
-from win32 import win32console
-from win32.lib import win32con
+from textual.app import App, ComposeResult
+from textual.widgets import Footer, Header
 
-import time
-import sys
+class TestApp(App):
+    """
+    Textual Test App
+    """
 
-print('----------------------------------------\n' +
-      '[ Started ]\n' +
-      '----------------------------------------\n\n')
+    BINDINGS = [("d", "toggle-dark", "Toggle dark mode")]
 
-systemConsole = win32console.GetStdHandle(win32console.STD_OUTPUT_HANDLE)
-print(f'[SystemConsole] = {systemConsole}')
 
-eventConsole = win32console.CreateConsoleScreenBuffer(
-    DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE,
-    ShareMode = 0,
-    SecurityAttributes = None,
-    Flags = win32console.CONSOLE_TEXTMODE_BUFFER)
-print(f'[EventConsole] = {eventConsole}')
+    def compose(self) -> ComposeResult:
+        """
+        Create child widget for the app
+        """
+        yield Header()
+        yield Footer()
 
-sys.stdin.read(1)
-eventConsole.SetStdHandle(win32console.STD_OUTPUT_HANDLE)
-eventConsole.SetConsoleActiveScreenBuffer()
-print('eventConsole activated.')
-#consoleMode = win32console.GetConsoleDisplayMode()
-#print('[ConsoleMode] = {Mode}'.format(Mode = consoleMode))
+    def action_toggle_dark(self) -> None:
+        """
+        Action toggle theme
+        """
+        return super().action_toggle_dark()
 
-time.sleep(3)
 
-sys.stdin.read(1)
-systemConsole.SetStdHandle(win32console.STD_OUTPUT_HANDLE)
-systemConsole.SetConsoleActiveScreenBuffer()
-print('systemConsole activated.')
-#consoleMode = win32console.GetConsoleMode()
-#print('[ConsoleMode] = {Mode}'.format(Mode = consoleMode))
-
-sys.stdin.read(1)
-eventConsole.SetStdHandle(win32console.STD_OUTPUT_HANDLE)
-eventConsole.SetConsoleActiveScreenBuffer()
-print('eventConsole activated.')
-
-sys.stdin.read(1)
-systemConsole.SetStdHandle(win32console.STD_OUTPUT_HANDLE)
-systemConsole.SetConsoleActiveScreenBuffer()
-print('systemConsole activated.')
-
-print('\n\n----------------------------------------\n' +
-      '[ Finished ]\n' +
-      '----------------------------------------\n\n')
+if __name__ == "__main__":
+    app = TestApp()
+    app.run()

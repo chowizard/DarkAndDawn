@@ -1,59 +1,47 @@
 #-*- coding: utf-8 -*-
 
-from io import StringIO
-from typing import Optional
+from typing import Callable, Optional
 
 class Logger:
     """
-    로그 클래스
+    Logger Class
     """
 
     ########################################
-    ## Public Variables
+    ## Private Variables
     ########################################
-    # 로그 버퍼
-    buffer: StringIO
-
+    
+    # Log handler callback
+    _logHandler: Optional[Callable[[str], None]] = None
 
     ########################################
     ## Public Methods
     ########################################
+    
     @staticmethod
-    def Initialize(buffer: StringIO):
+    def Initialize(logHandler: Callable[[str], None] = None):
         """
-        로거 초기화
+        Initialize the logger with an optional handler.
         """
-        Logger.buffer = buffer
+        Logger._logHandler = logHandler
 
     @staticmethod
     def Release():
         """
-        로거 자원 해제
+        Release logger resources.
         """
-        if Logger.buffer is not None and not Logger.buffer.closed:
-            Logger.buffer.close()
-            Logger.buffer = None
+        Logger._logHandler = None
 
     @staticmethod
     def Log(message: str):
         """
-        로그를 버퍼에 쓴다.
+        Write a log message using the registered handler.
         """
-        if Logger.buffer is not None:
-            Logger.LogToBuffer(Logger.buffer, message)
-
-    @staticmethod
-    def LogToBuffer(buffer: StringIO, message: str):
-        """
-        로그를 특정 버퍼에 쓴다.
-        """
-        try:
-            if buffer is not None and not buffer.closed:
-                buffer.write(f"{message}\n")
-        except:
-            # 로그 쓰기 실패 시 무시
-            pass
-
+        if Logger._logHandler:
+            Logger._logHandler(message)
+        else:
+            # Fallback for when no handler is registered (e.g. early startup)
+            print(f"[Log] {message}")
 
     ########################################
     ## Private Methods
@@ -61,6 +49,6 @@ class Logger:
 
     def __init__(self):
         """
-        생성자
+        Constructor (Private)
         """
-        super().__init__()
+        pass

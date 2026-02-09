@@ -6,31 +6,14 @@ Created on 2017. 8. 8.
 @author: JoSoowoon
 """
 
+import sys
+import os
+
+from DnDApp import DnDApp
+
+# Ensure the parent directory is in sys.path so we can import modules correctly
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 if __name__ == '__main__':
-    # 내용 없음
-    pass
-
-
-from Utilities.Logger import Logger
-from Console import Console
-
-
-########################################
-# 프로그램 시작
-########################################
-
-print("""
-========================================
- Game Started
-========================================
-""")
-
-Logger.Initialize(Console.consoleOutputSystem)
-Console.Run()
-Logger.Release()
-
-print("""
-========================================
- Game Terminated
-========================================
-""")
+    app = DnDApp()
+    app.run()
