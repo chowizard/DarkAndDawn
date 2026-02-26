@@ -15,7 +15,7 @@ class GameScreen(Screen):
     """
     BINDINGS = [Binding("escape", "app.toggle_mode", "System Mode")]
 
-    def Compose(self) -> ComposeResult:
+    def compose(self) -> ComposeResult:
         yield Header()
         yield Container(Static("Game Screen - Placeholder for Game Output", id="game_output"))
         yield Footer()
@@ -26,12 +26,12 @@ class SystemScreen(Screen):
     """
     BINDINGS = [Binding("escape", "app.toggle_mode", "Game Mode")]
 
-    def Compose(self) -> ComposeResult:
+    def compose(self) -> ComposeResult:
         yield Header()
         yield RichLog(highlight=True, markup=True, id="system_log")
         yield Footer()
 
-    def OnMount(self) -> None:
+    def on_mount(self) -> None:
         """
         Called when screen is mounted.
         """
@@ -45,7 +45,7 @@ class SystemScreen(Screen):
         # Initialize Logger with this handler
         # Note: In a real app, we might want to queue logs if screen isn't ready,
         # but for now we hook it up here.
-        Logger.Initialize(logToWidget)
+        Logger.Initialize(LogToWidget)
         Logger.Log("System Screen Initialized. Logger connected.")
 
 class DnDApp(App):
@@ -79,7 +79,7 @@ class DnDApp(App):
         Binding("q", "quit", "Quit"),
     ]
 
-    def OnMount(self) -> None:
+    def on_mount(self) -> None:
         """
         App start
         """
@@ -87,7 +87,7 @@ class DnDApp(App):
         # Initialize Game Singleton (will remain as Singleton for now per plan)
         Game.Singleton().Initialize()
 
-    def ActionToggleMode(self) -> None:
+    def action_toggle_mode(self) -> None:
         """
         Toggle between Game and System screens.
         """
