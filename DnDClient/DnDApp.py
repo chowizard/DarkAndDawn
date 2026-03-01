@@ -1,5 +1,7 @@
 #-*- coding: utf-8 -*-
 
+from typing import override
+
 from textual.app import App, ComposeResult
 from textual.containers import Container
 from textual.widgets import Header, Footer, Static, RichLog
@@ -15,6 +17,7 @@ class GameScreen(Screen):
     """
     BINDINGS = [Binding("escape", "app.toggle_mode", "System Mode")]
 
+    @override
     def compose(self) -> ComposeResult:
         yield Header()
         yield Container(Static("Game Screen - Placeholder for Game Output", id="game_output"))
@@ -26,11 +29,13 @@ class SystemScreen(Screen):
     """
     BINDINGS = [Binding("escape", "app.toggle_mode", "Game Mode")]
 
+    @override
     def compose(self) -> ComposeResult:
         yield Header()
         yield RichLog(highlight=True, markup=True, id="system_log")
         yield Footer()
 
+    @override
     def on_mount(self) -> None:
         """
         Called when screen is mounted.
@@ -79,6 +84,7 @@ class DnDApp(App):
         Binding("q", "quit", "Quit"),
     ]
 
+    @override
     def on_mount(self) -> None:
         """
         App start
@@ -87,6 +93,7 @@ class DnDApp(App):
         # Initialize Game Singleton (will remain as Singleton for now per plan)
         Game.Singleton().Initialize()
 
+    @override
     def action_toggle_mode(self) -> None:
         """
         Toggle between Game and System screens.
